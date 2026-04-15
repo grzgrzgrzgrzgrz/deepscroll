@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "kiba-rlm"
+name = "deepscroll"
 version = "0.1.0"
 description = "Recursive Language Models for infinite context - 10M+ tokens analysis"
 readme = "README.md"
@@ -61,15 +61,15 @@ streaming = [
 ]
 
 [project.scripts]
-kiba-rlm = "kiba_rlm.cli:cli"
+deepscroll = "deepscroll.cli:cli"
 
 [project.urls]
-Homepage = "https://github.com/kiba-solutions/kiba-rlm"
-Documentation = "https://github.com/kiba-solutions/kiba-rlm#readme"
-Repository = "https://github.com/kiba-solutions/kiba-rlm"
+Homepage = "https://github.com/grzgrzgrzgrzgrz/deepscroll"
+Documentation = "https://github.com/grzgrzgrzgrzgrz/deepscroll#readme"
+Repository = "https://github.com/grzgrzgrzgrzgrz/deepscroll"
 
 [tool.hatch.build.targets.wheel]
-packages = ["kiba_rlm"]
+packages = ["deepscroll"]
 
 [tool.black]
 line-length = 100

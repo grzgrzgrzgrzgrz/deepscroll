@@ -1,10 +1,10 @@
 """
-kiba-rlm CLI - Command line interface for recursive document analysis.
+deepscroll CLI - Command line interface for recursive document analysis.
 
 Usage:
-    kiba-rlm analyze ./docs --query "What are the main themes?"
-    kiba-rlm analyze ./codebase --query "How does auth work?" --llm openai
-    kiba-rlm research "DSGVO compliance" --sources urls.txt
+    deepscroll analyze ./docs --query "What are the main themes?"
+    deepscroll analyze ./codebase --query "How does auth work?" --llm openai
+    deepscroll research "DSGVO compliance" --sources urls.txt
 """
 
 from __future__ import annotations
@@ -59,7 +59,7 @@ def load_files(path: str) -> list[str]:
 @click.version_option(version="0.1.0")
 def cli() -> None:
     """
-    kiba-rlm: Recursive Language Models for infinite context analysis.
+    deepscroll: Recursive Language Models for infinite context analysis.
 
     Analyze large document sets (10M+ tokens) using LLM-guided navigation.
     """
@@ -97,11 +97,11 @@ def analyze(
     are loaded and analyzed together.
 
     Examples:
-        kiba-rlm analyze ./docs -q "Summarize the main concepts"
-        kiba-rlm analyze ./src -q "How does authentication work?"
-        kiba-rlm analyze report.pdf -q "What are the key findings?"
+        deepscroll analyze ./docs -q "Summarize the main concepts"
+        deepscroll analyze ./src -q "How does authentication work?"
+        deepscroll analyze report.pdf -q "What are the key findings?"
     """
-    console.print(f"[bold]kiba-rlm[/bold] - Analyzing: {path}")
+    console.print(f"[bold]deepscroll[/bold] - Analyzing: {path}")
     console.print(f"Query: {query}\n")
 
     # Load files
@@ -198,10 +198,10 @@ def research(
     Deep research on a topic using multiple sources.
 
     Examples:
-        kiba-rlm research "DSGVO compliance for SaaS"
-        kiba-rlm research "React performance" --sources urls.txt
+        deepscroll research "DSGVO compliance for SaaS"
+        deepscroll research "React performance" --sources urls.txt
     """
-    console.print(f"[bold]kiba-rlm Research[/bold]")
+    console.print(f"[bold]deepscroll Research[/bold]")
     console.print(f"Topic: {topic}\n")
 
     documents: list[str] = []
@@ -264,8 +264,8 @@ def search(
     Search documents for a pattern.
 
     Examples:
-        kiba-rlm search ./docs -p "authentication"
-        kiba-rlm search ./src -p "TODO|FIXME" -i
+        deepscroll search ./docs -p "authentication"
+        deepscroll search ./src -p "TODO|FIXME" -i
     """
     documents = load_files(path)
     nav = DocumentNavigator(context_lines=context)
@@ -302,8 +302,8 @@ def stats(path: str) -> None:
     Show statistics about documents.
 
     Examples:
-        kiba-rlm stats ./docs
-        kiba-rlm stats ./src
+        deepscroll stats ./docs
+        deepscroll stats ./src
     """
     documents = load_files(path)
     nav = DocumentNavigator()

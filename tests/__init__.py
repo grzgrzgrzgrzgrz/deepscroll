@@ -1,1 +1,1 @@
-"""Tests for kiba-rlm package."""
+"""Tests for deepscroll package."""

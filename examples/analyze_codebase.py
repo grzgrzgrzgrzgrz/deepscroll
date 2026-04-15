@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Example: Analyze a codebase using kiba-rlm.
+Example: Analyze a codebase using deepscroll.
 
 This example shows how to use the RecursiveContextManager to analyze
 a codebase of any size with natural language queries.
@@ -12,7 +12,7 @@ Usage:
 import sys
 from pathlib import Path
 
-from kiba_rlm import RecursiveContextManager, DocumentNavigator
+from deepscroll import RecursiveContextManager, DocumentNavigator
 
 
 def load_codebase(path: str) -> list[str]:

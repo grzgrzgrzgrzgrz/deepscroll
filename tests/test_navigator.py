@@ -1,7 +1,7 @@
 """Tests for DocumentNavigator."""
 
 import pytest
-from kiba_rlm.navigator import DocumentNavigator, SearchMatch
+from deepscroll.navigator import DocumentNavigator, SearchMatch
 
 
 class TestDocumentNavigator:

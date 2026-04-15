@@ -2,7 +2,7 @@
 """
 Example: Deep research across multiple documents.
 
-This example shows how to use kiba-rlm to analyze multiple documents
+This example shows how to use deepscroll to analyze multiple documents
 and synthesize information from them.
 
 Usage:
@@ -12,7 +12,7 @@ Usage:
 import sys
 from pathlib import Path
 
-from kiba_rlm import RecursiveContextManager
+from deepscroll import RecursiveContextManager
 
 
 def load_documents(paths: list[str]) -> list[str]:

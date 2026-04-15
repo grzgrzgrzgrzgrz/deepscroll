@@ -3,7 +3,7 @@
 import pytest
 from unittest.mock import MagicMock, patch
 
-from kiba_rlm.core import RecursiveContextManager, AnalysisResult
+from deepscroll.core import RecursiveContextManager, AnalysisResult
 
 
 class TestRecursiveContextManager:
@@ -23,7 +23,7 @@ class TestRecursiveContextManager:
 
     def test_init_with_string_provider(self) -> None:
         """Test initialization with string provider name."""
-        with patch("kiba_rlm.core.LLMInterface") as mock:
+        with patch("deepscroll.core.LLMInterface") as mock:
             mock.return_value = MagicMock()
             manager = RecursiveContextManager(llm="claude")
             mock.assert_called_once_with("claude")

@@ -1,4 +1,4 @@
-# kiba-rlm
+# deepscroll
 
 **Recursive Language Models for Infinite Context Analysis**
 
@@ -13,20 +13,20 @@ Analyze documents of any size (10M+ tokens) using LLM-guided recursive navigatio
 > DOI: [10.48550/arXiv.2512.24601](https://doi.org/10.48550/arXiv.2512.24601)
 >
 > All credit for the underlying method belongs to the original authors at MIT.
-> `kiba-rlm` is not affiliated with or endorsed by the paper's authors or MIT.
+> `deepscroll` is not affiliated with or endorsed by the paper's authors or MIT.
 > See the [Citation](#citation) section below for BibTeX.
 
 ## Installation
 
 ```bash
-pip install kiba-rlm
+pip install deepscroll
 ```
 
 Or install from source:
 
 ```bash
-git clone https://github.com/kiba-solutions/kiba-rlm
-cd kiba-rlm
+git clone https://github.com/grzgrzgrzgrzgrz/deepscroll
+cd deepscroll
 pip install -e .
 ```
 
@@ -35,7 +35,7 @@ pip install -e .
 ### Python API
 
 ```python
-from kiba_rlm import analyze_large_context
+from deepscroll import analyze_large_context
 
 # Analyze any number of documents
 result = analyze_large_context(
@@ -49,16 +49,16 @@ print(result)
 
 ```bash
 # Analyze a codebase
-kiba-rlm analyze ./src --query "How does authentication work?"
+deepscroll analyze ./src --query "How does authentication work?"
 
 # Analyze documents
-kiba-rlm analyze ./docs --query "Summarize the key findings"
+deepscroll analyze ./docs --query "Summarize the key findings"
 
 # Search with context
-kiba-rlm search ./src --pattern "TODO|FIXME"
+deepscroll search ./src --pattern "TODO|FIXME"
 
 # Get statistics
-kiba-rlm stats ./my-project
+deepscroll stats ./my-project
 ```
 
 ### Claude Code MCP Integration
@@ -68,9 +68,9 @@ Add to `~/.claude/settings.json`:
 ```json
 {
   "mcpServers": {
-    "kiba-rlm": {
+    "deepscroll": {
       "command": "python",
-      "args": ["-m", "kiba_rlm.mcp_server"],
+      "args": ["-m", "deepscroll.mcp_server"],
       "env": {
         "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}"
       }
@@ -87,7 +87,7 @@ Use the analyze_codebase tool to understand how the auth system works in ./src
 
 ## How It Works
 
-Traditional LLMs have context window limits (typically 128K-200K tokens). kiba-rlm breaks this barrier using the **Recursive Language Model** technique:
+Traditional LLMs have context window limits (typically 128K-200K tokens). deepscroll breaks this barrier using the **Recursive Language Model** technique:
 
 1. **Documents as Variables**: Instead of putting all documents in the context, they're stored as external variables
 2. **LLM-Generated Navigation**: The LLM writes Python code to search and navigate through documents
@@ -124,7 +124,7 @@ Traditional LLMs have context window limits (typically 128K-200K tokens). kiba-r
 The main class for document analysis.
 
 ```python
-from kiba_rlm import RecursiveContextManager
+from deepscroll import RecursiveContextManager
 
 manager = RecursiveContextManager(
     llm="claude",           # or "openai"
@@ -144,7 +144,7 @@ result = manager.analyze(
 Tools for searching and navigating documents.
 
 ```python
-from kiba_rlm import DocumentNavigator
+from deepscroll import DocumentNavigator
 
 nav = DocumentNavigator()
 
@@ -166,7 +166,7 @@ summary = nav.summarize(document, head_lines=20, tail_lines=20)
 Unified interface for LLM providers.
 
 ```python
-from kiba_rlm import LLMInterface
+from deepscroll import LLMInterface
 
 llm = LLMInterface(
     provider="claude",      # or "openai"
@@ -216,7 +216,7 @@ LLM-generated code runs in a **RestrictedPython sandbox** that:
 ### Analyze a Monorepo
 
 ```python
-from kiba_rlm import analyze_large_context
+from deepscroll import analyze_large_context
 
 # Works with codebases of any size
 result = analyze_large_context(
@@ -228,7 +228,7 @@ result = analyze_large_context(
 ### Compare Documents
 
 ```python
-from kiba_rlm import RecursiveContextManager
+from deepscroll import RecursiveContextManager
 
 manager = RecursiveContextManager()
 
@@ -241,7 +241,7 @@ result = manager.analyze(
 ### Code Review
 
 ```bash
-kiba-rlm analyze ./src \
+deepscroll analyze ./src \
     --query "Find potential security issues" \
     --output security-review.md \
     --format markdown
@@ -257,11 +257,11 @@ pip install -e ".[dev]"
 pytest
 
 # Format code
-black kiba_rlm
-ruff check kiba_rlm
+black deepscroll
+ruff check deepscroll
 
 # Type check
-mypy kiba_rlm
+mypy deepscroll
 ```
 
 ## License
@@ -270,7 +270,7 @@ MIT
 
 ## Citation
 
-If you use `kiba-rlm` in your research or work, **please cite the original paper** this
+If you use `deepscroll` in your research or work, **please cite the original paper** this
 implementation is based on:
 
 **Plain text:**
@@ -301,7 +301,7 @@ Additional techniques and inspiration:
 
 ## Disclaimer
 
-`kiba-rlm` is an **independent open-source implementation** and is **not affiliated with,
+`deepscroll` is an **independent open-source implementation** and is **not affiliated with,
 endorsed by, or sponsored by** the authors of the Recursive Language Models paper, MIT,
 or any of their affiliated institutions. Any errors in this implementation are our own.
 

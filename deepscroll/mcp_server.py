@@ -1,5 +1,5 @@
 """
-MCP Server for kiba-rlm - Claude Code integration.
+MCP Server for deepscroll - Claude Code integration.
 
 Provides tools for recursive document analysis directly in Claude Code.
 
@@ -15,9 +15,9 @@ Setup:
     Add to ~/.claude/mcp.json:
     {
       "mcpServers": {
-        "kiba-rlm": {
+        "deepscroll": {
           "command": "python",
-          "args": ["-m", "kiba_rlm.mcp_server"],
+          "args": ["-m", "deepscroll.mcp_server"],
           "env": {
             "OPENAI_API_KEY": "${OPENAI_API_KEY}",
             "RLM_LLM_MODEL": "gpt-5.4-nano",
@@ -66,7 +66,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Log configuration on startup
-logger.info(f"kiba-rlm MCP Server initializing with provider={RLM_LLM_PROVIDER}, model={RLM_LLM_MODEL}")
+logger.info(f"deepscroll MCP Server initializing with provider={RLM_LLM_PROVIDER}, model={RLM_LLM_MODEL}")
 
 
 def load_files_from_path(path: str, extensions: set[str] | None = None) -> list[str]:
@@ -111,7 +111,7 @@ def load_files_from_path(path: str, extensions: set[str] | None = None) -> list[
 
 
 if MCP_AVAILABLE:
-    server = Server("kiba-rlm")
+    server = Server("deepscroll")
 
     @server.list_tools()
     async def list_tools() -> list[Tool]:

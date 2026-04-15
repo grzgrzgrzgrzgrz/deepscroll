@@ -1,11 +1,11 @@
 """
-kiba-rlm: Recursive Language Models for Infinite Context
+deepscroll: Recursive Language Models for Infinite Context
 
 Implements MIT RLM paper techniques for 10M+ token context analysis.
 Treats documents as external variables, uses LLM-generated code to navigate.
 
 Example:
-    from kiba_rlm import analyze_codebase, analyze_large_context
+    from deepscroll import analyze_codebase, analyze_large_context
 
     # Analyze a codebase (recommended for large projects)
     result = analyze_codebase("/path/to/project", "How does authentication work?")

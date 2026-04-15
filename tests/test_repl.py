@@ -1,7 +1,7 @@
 """Tests for SecurePythonREPL."""
 
 import pytest
-from kiba_rlm.repl import SecurePythonREPL, REPLResult
+from deepscroll.repl import SecurePythonREPL, REPLResult
 
 
 class TestSecurePythonREPL:
