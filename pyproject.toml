@@ -67,6 +67,7 @@ deepscroll = "deepscroll.cli:cli"
 Homepage = "https://github.com/grzgrzgrzgrzgrz/deepscroll"
 Documentation = "https://github.com/grzgrzgrzgrzgrz/deepscroll#readme"
 Repository = "https://github.com/grzgrzgrzgrzgrz/deepscroll"
+Issues = "https://github.com/grzgrzgrzgrzgrz/deepscroll/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["deepscroll"]
@@ -77,6 +78,8 @@ target-version = ["py310", "py311", "py312"]
 
 [tool.ruff]
 line-length = 100
+
+[tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP"]
 ignore = ["E501"]
 
@@ -85,6 +88,10 @@ python_version = "3.10"
 warn_return_any = true
 warn_unused_ignores = true
 disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["RestrictedPython", "RestrictedPython.*"]
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

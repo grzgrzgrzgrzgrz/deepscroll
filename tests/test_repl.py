@@ -1,7 +1,8 @@
 """Tests for SecurePythonREPL."""
 
 import pytest
-from deepscroll.repl import SecurePythonREPL, REPLResult
+
+from deepscroll.repl import REPLResult, SecurePythonREPL
 
 
 class TestSecurePythonREPL:

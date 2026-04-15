@@ -7,12 +7,12 @@ Uses OpenAI by default to avoid recursive API calls when running inside
 Claude Code. Configure via environment variables:
   - OPENAI_API_KEY: Required for OpenAI models (default)
   - RLM_LLM_PROVIDER: "openai" (default) or "claude"
-  - RLM_LLM_MODEL: Override model (default: gpt-5.4-nano)
+  - RLM_LLM_MODEL: Override model (default: gpt-5.4-mini)
   - RLM_MAX_TOKENS: Max output tokens per LLM call (default: 4096)
   - RLM_TEMPERATURE: Sampling temperature (default: 0.2)
 
 Setup:
-    Add to ~/.claude/mcp.json:
+    Add the following server entry to your Claude Code MCP configuration:
     {
       "mcpServers": {
         "deepscroll": {
@@ -20,7 +20,7 @@ Setup:
           "args": ["-m", "deepscroll.mcp_server"],
           "env": {
             "OPENAI_API_KEY": "${OPENAI_API_KEY}",
-            "RLM_LLM_MODEL": "gpt-5.4-nano",
+            "RLM_LLM_MODEL": "gpt-5.4-mini",
             "RLM_MAX_TOKENS": "4096",
             "RLM_TEMPERATURE": "0.2"
           }
@@ -32,15 +32,16 @@ Setup:
 from __future__ import annotations
 
 import asyncio
-import json
 import logging
 import os
 import sys
 from pathlib import Path
 from typing import Any
 
+from .core import RecursiveContextManager
+
 # LLM Configuration for RLM analysis
-# Default to OpenAI GPT-5.4-nano to avoid recursive Claude API calls
+# Default to OpenAI GPT-5.4-mini to avoid recursive Claude API calls
 RLM_LLM_PROVIDER = os.environ.get("RLM_LLM_PROVIDER", "openai")
 RLM_LLM_MODEL = os.environ.get("RLM_LLM_MODEL", "gpt-5.4-mini")
 
@@ -48,15 +49,11 @@ RLM_LLM_MODEL = os.environ.get("RLM_LLM_MODEL", "gpt-5.4-mini")
 try:
     from mcp.server import Server
     from mcp.server.stdio import stdio_server
-    from mcp.types import Tool, TextContent
+    from mcp.types import TextContent, Tool
 
     MCP_AVAILABLE = True
 except ImportError:
     MCP_AVAILABLE = False
-
-from .core import RecursiveContextManager
-from .llm import LLMInterface
-from .navigator import DocumentNavigator
 
 # Configure logging - use INFO level for MCP server
 logging.basicConfig(
@@ -252,6 +249,7 @@ Returns file count, total size, token estimates, and file breakdown.""",
         """Analyze a codebase using recursive navigation with lazy loading."""
         import time
         from pathlib import Path as PathLib
+
         from .file_index import FileIndex
 
         start_time = time.time()
@@ -309,6 +307,7 @@ Returns file count, total size, token estimates, and file breakdown.""",
     async def analyze_documents(paths: list[str], query: str) -> list[TextContent]:
         """Analyze multiple documents or directories."""
         from pathlib import Path as PathLib
+
         from .file_index import FileIndex
 
         total_files = 0
@@ -329,7 +328,7 @@ Returns file count, total size, token estimates, and file breakdown.""",
                     total_files += 1
                     total_size += len(content)
 
-                    def run_single(content=content) -> str:
+                    def run_single(content: str = content) -> str:
                         manager = RecursiveContextManager(
                             llm=RLM_LLM_PROVIDER,
                             model=RLM_LLM_MODEL,
@@ -344,7 +343,7 @@ Returns file count, total size, token estimates, and file breakdown.""",
                     all_results.append(f"### {p.name}\nError reading file: {e}")
             else:
                 # Directory - use index-based analysis
-                def run_dir(path=path) -> str:
+                def run_dir(path: str = path) -> str:
                     manager = RecursiveContextManager(
                         llm=RLM_LLM_PROVIDER,
                         model=RLM_LLM_MODEL,

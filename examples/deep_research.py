@@ -6,7 +6,7 @@ This example shows how to use deepscroll to analyze multiple documents
 and synthesize information from them.
 
 Usage:
-    python deep_research.py doc1.md doc2.pdf doc3.txt "What are the key findings?"
+    python deep_research.py doc1.md doc2.txt doc3.txt "What are the key findings?"
 """
 
 import sys
@@ -40,7 +40,7 @@ def main() -> None:
     """Main entry point."""
     if len(sys.argv) < 3:
         print("Usage: python deep_research.py <file1> [file2...] <query>")
-        print("Example: python deep_research.py report.pdf notes.md 'Summarize key points'")
+        print("Example: python deep_research.py report.md notes.md 'Summarize key points'")
         sys.exit(1)
 
     # Last argument is the query

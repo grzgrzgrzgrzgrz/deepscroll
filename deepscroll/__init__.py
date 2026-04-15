@@ -12,16 +12,16 @@ Example:
 
     # Or analyze specific documents
     result = analyze_large_context(
-        documents=["doc1.txt", "doc2.pdf"],
+        documents=["doc1.txt", "doc2.md"],
         query="What are the key themes across all documents?"
     )
 """
 
 from .core import RecursiveContextManager
-from .repl import SecurePythonREPL
-from .navigator import DocumentNavigator
-from .llm import LLMInterface
 from .file_index import FileIndex
+from .llm import LLMInterface
+from .navigator import DocumentNavigator
+from .repl import SecurePythonREPL
 
 __version__ = "0.1.0"
 __all__ = [

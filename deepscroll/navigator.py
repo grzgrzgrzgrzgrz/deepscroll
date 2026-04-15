@@ -8,8 +8,8 @@ LLM-generated code to efficiently navigate through large contexts.
 from __future__ import annotations
 
 import re
+from collections.abc import Iterator
 from dataclasses import dataclass
-from typing import Iterator
 
 
 @dataclass
@@ -350,8 +350,7 @@ class DocumentNavigator:
         Yields:
             (line_number, line_content) tuples
         """
-        for i, line in enumerate(text.split("\n"), 1):
-            yield i, line
+        yield from enumerate(text.split("\n"), 1)
 
     def get_line_range(
         self,

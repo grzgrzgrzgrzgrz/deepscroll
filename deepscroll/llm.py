@@ -12,7 +12,7 @@ import os
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Literal
+from typing import Any, Literal, cast
 
 logger = logging.getLogger(__name__)
 
@@ -117,7 +117,7 @@ class ClaudeProvider(BaseLLMProvider):
         for attempt in range(max_retries):
             try:
                 response = self.client.messages.create(**kwargs)
-                return response.content[0].text
+                return str(response.content[0].text)
 
             except Exception as e:
                 error_str = str(e)
@@ -279,7 +279,7 @@ class LLMInterface:
     Automatically selects provider based on name and handles fallback.
     """
 
-    PROVIDERS = {
+    PROVIDERS: dict[str, type[ClaudeProvider] | type[OpenAIProvider]] = {
         # Anthropic
         "claude": ClaudeProvider,
         "anthropic": ClaudeProvider,
@@ -337,7 +337,7 @@ class LLMInterface:
                     f"Available: {list(self.PROVIDERS.keys())}"
                 )
 
-            provider_class = self.PROVIDERS[provider_lower]
+            provider_class = cast(type[ClaudeProvider] | type[OpenAIProvider], self.PROVIDERS[provider_lower])
             self.provider = provider_class(api_key=api_key, model=model)
 
         self.fallback: BaseLLMProvider | None = None
@@ -345,7 +345,10 @@ class LLMInterface:
             fallback_lower = fallback_provider.lower()
             if fallback_lower in self.PROVIDERS:
                 try:
-                    fallback_class = self.PROVIDERS[fallback_lower]
+                    fallback_class = cast(
+                        type[ClaudeProvider] | type[OpenAIProvider],
+                        self.PROVIDERS[fallback_lower],
+                    )
                     self.fallback = fallback_class()
                 except ValueError:
                     logger.warning(f"Could not initialize fallback provider: {fallback_provider}")

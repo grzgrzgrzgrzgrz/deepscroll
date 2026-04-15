@@ -19,10 +19,10 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from .file_index import FileIndex
 from .llm import LLMInterface
 from .navigator import DocumentNavigator
-from .repl import SecurePythonREPL, REPLResult
-from .file_index import FileIndex
+from .repl import REPLResult, SecurePythonREPL
 
 logger = logging.getLogger(__name__)
 
@@ -79,7 +79,10 @@ class RecursiveContextManager:
             chunk_size: Size of text chunks for processing
             overlap: Overlap between chunks
         """
-        self.llm = LLMInterface(llm, model=model) if isinstance(llm, str) else llm
+        if isinstance(llm, str):
+            self.llm = LLMInterface(llm) if model is None else LLMInterface(llm, model=model)
+        else:
+            self.llm = llm
         self.max_recursion = max_recursion
         self.chunk_size = chunk_size
         self.overlap = overlap
@@ -893,12 +896,13 @@ If no relevant info, say "NO_RELEVANT_INFO". Otherwise summarize findings."""
     def _synthesize_answer(self, repl_result: REPLResult, query: str) -> str:
         """Synthesize final answer from REPL result."""
         result_var = self.repl.get_variable("result")
-        context = str(result_var) if result_var else repl_result.output
+        context = result_var if result_var is not None else (repl_result.output or "")
+        context_text = str(context)
 
         prompt = f"""Based on these analysis results, answer the query.
 
 Results:
-{context[:8000]}
+{context_text[:8000]}
 
 Query: {query}
 

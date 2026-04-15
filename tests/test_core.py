@@ -1,9 +1,10 @@
 """Tests for RecursiveContextManager core functionality."""
 
-import pytest
 from unittest.mock import MagicMock, patch
 
-from deepscroll.core import RecursiveContextManager, AnalysisResult
+import pytest
+
+from deepscroll.core import AnalysisResult, RecursiveContextManager
 
 
 class TestRecursiveContextManager:
@@ -25,7 +26,7 @@ class TestRecursiveContextManager:
         """Test initialization with string provider name."""
         with patch("deepscroll.core.LLMInterface") as mock:
             mock.return_value = MagicMock()
-            manager = RecursiveContextManager(llm="claude")
+            RecursiveContextManager(llm="claude")
             mock.assert_called_once_with("claude")
 
     def test_init_with_llm_instance(self, mock_llm: MagicMock) -> None:
@@ -93,9 +94,6 @@ class TestRecursiveContextManager:
         self, manager: RecursiveContextManager, mock_llm: MagicMock
     ) -> None:
         """Test fallback to chunked analysis."""
-        # Create a large document that will trigger navigation
-        large_doc = "Content. " * 10000  # Large enough
-
         # Make navigation code fail
         mock_llm.generate.side_effect = [
             "invalid code that will fail",  # Navigation code

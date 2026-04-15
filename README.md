@@ -22,12 +22,20 @@ Analyze documents of any size (10M+ tokens) using LLM-guided recursive navigatio
 pip install deepscroll
 ```
 
+Install the MCP server extras when you want Claude Code integration:
+
+```bash
+pip install 'deepscroll[mcp]'
+```
+
 Or install from source:
 
 ```bash
 git clone https://github.com/grzgrzgrzgrzgrz/deepscroll
 cd deepscroll
-pip install -e .
+python -m venv .venv
+source .venv/bin/activate
+pip install -e '.[dev,mcp]'
 ```
 
 ## Quick Start
@@ -63,7 +71,7 @@ deepscroll stats ./my-project
 
 ### Claude Code MCP Integration
 
-Add to `~/.claude/settings.json`:
+Add an MCP server entry to your Claude Code MCP configuration:
 
 ```json
 {
@@ -72,7 +80,11 @@ Add to `~/.claude/settings.json`:
       "command": "python",
       "args": ["-m", "deepscroll.mcp_server"],
       "env": {
-        "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}"
+        "OPENAI_API_KEY": "${OPENAI_API_KEY}",
+        "RLM_LLM_PROVIDER": "openai",
+        "RLM_LLM_MODEL": "gpt-5.4-mini",
+        "RLM_MAX_TOKENS": "4096",
+        "RLM_TEMPERATURE": "0.2"
       }
     }
   }
@@ -186,30 +198,43 @@ response = llm.generate(
 ### Environment Variables
 
 ```bash
+# For OpenAI
+export OPENAI_API_KEY=sk-...
+
 # For Claude (Anthropic)
 export ANTHROPIC_API_KEY=sk-ant-...
 
-# For OpenAI
-export OPENAI_API_KEY=sk-...
+# Optional MCP / runtime overrides
+export RLM_LLM_PROVIDER=openai
+export RLM_LLM_MODEL=gpt-5.4-mini
+export RLM_MAX_TOKENS=4096
+export RLM_TEMPERATURE=0.2
 ```
+
+A sample file is available in [`.env.example`](./.env.example).
 
 ### Supported File Types
 
-The CLI and MCP server automatically process these file types:
+The CLI and MCP server automatically process text-based files such as:
 - Code: `.py`, `.js`, `.ts`, `.tsx`, `.jsx`, `.go`, `.rs`, `.java`, `.c`, `.cpp`, `.h`
 - Docs: `.md`, `.txt`, `.rst`, `.html`
 - Config: `.json`, `.yaml`, `.yml`, `.toml`
 - Shell: `.sh`, `.bash`, `.zsh`
 - SQL: `.sql`
 
+Binary formats such as PDFs are not parsed directly. Convert them to text or
+Markdown first if you want reliable analysis.
+
 ## Security
 
-LLM-generated code runs in a **RestrictedPython sandbox** that:
-- Blocks file system access
-- Blocks network access
-- Blocks code execution (`eval`, `exec`, `__import__`)
-- Allows only safe built-in functions
-- Provides safe versions of `re`, `json`, `math`, `collections`
+LLM-generated code runs in a **RestrictedPython-based, best-effort sandbox** that:
+- blocks direct access to dangerous built-ins such as `open`, `eval`, `exec`, and `__import__`
+- exposes only a narrow set of safe helpers for navigation and analysis
+- provides Python-level restrictions, not full OS- or container-level isolation
+
+If you analyze untrusted content, run `deepscroll` inside an isolated environment
+such as a dedicated virtual machine or container. See [`SECURITY.md`](./SECURITY.md)
+for reporting guidance and threat-model notes.
 
 ## Examples
 
@@ -233,7 +258,7 @@ from deepscroll import RecursiveContextManager
 manager = RecursiveContextManager()
 
 result = manager.analyze(
-    documents=["contract_v1.pdf", "contract_v2.pdf"],
+    documents=["contract_v1.md", "contract_v2.md"],
     query="What are the key differences between these versions?"
 )
 ```
@@ -250,19 +275,30 @@ deepscroll analyze ./src \
 ## Development
 
 ```bash
-# Install dev dependencies
-pip install -e ".[dev]"
+python -m venv .venv
+source .venv/bin/activate
+pip install -e '.[dev,mcp]'
 
 # Run tests
 pytest
 
 # Format code
-black deepscroll
-ruff check deepscroll
+black deepscroll tests examples
+ruff check .
 
 # Type check
 mypy deepscroll
+
+# Build release artifacts
+python -m build
 ```
+
+## Community
+
+- [Contributing guide](./CONTRIBUTING.md)
+- [Code of conduct](./CODE_OF_CONDUCT.md)
+- [Security policy](./SECURITY.md)
+- [Issue tracker](https://github.com/grzgrzgrzgrzgrz/deepscroll/issues)
 
 ## License
 

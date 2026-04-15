@@ -10,9 +10,7 @@ Usage:
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
-from typing import Optional
 
 import click
 from rich.console import Console
@@ -84,8 +82,8 @@ def analyze(
     path: str,
     query: str,
     llm: str,
-    model: Optional[str],
-    output: Optional[str],
+    model: str | None,
+    output: str | None,
     fmt: str,
     max_recursion: int,
     verbose: bool,
@@ -99,7 +97,7 @@ def analyze(
     Examples:
         deepscroll analyze ./docs -q "Summarize the main concepts"
         deepscroll analyze ./src -q "How does authentication work?"
-        deepscroll analyze report.pdf -q "What are the key findings?"
+        deepscroll analyze report.md -q "What are the key findings?"
     """
     console.print(f"[bold]deepscroll[/bold] - Analyzing: {path}")
     console.print(f"Query: {query}\n")
@@ -190,9 +188,9 @@ def analyze(
 @click.option("-o", "--output", default=None, help="Output file")
 def research(
     topic: str,
-    sources: Optional[str],
+    sources: str | None,
     llm: str,
-    output: Optional[str],
+    output: str | None,
 ) -> None:
     """
     Deep research on a topic using multiple sources.
@@ -201,10 +199,8 @@ def research(
         deepscroll research "DSGVO compliance for SaaS"
         deepscroll research "React performance" --sources urls.txt
     """
-    console.print(f"[bold]deepscroll Research[/bold]")
+    console.print("[bold]deepscroll Research[/bold]")
     console.print(f"Topic: {topic}\n")
-
-    documents: list[str] = []
 
     # Load sources if provided
     if sources:
@@ -306,7 +302,6 @@ def stats(path: str) -> None:
         deepscroll stats ./src
     """
     documents = load_files(path)
-    nav = DocumentNavigator()
 
     total_chars = sum(len(d) for d in documents)
     total_lines = sum(d.count("\n") + 1 for d in documents)

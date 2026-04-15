@@ -12,7 +12,7 @@ Usage:
 import sys
 from pathlib import Path
 
-from deepscroll import RecursiveContextManager, DocumentNavigator
+from deepscroll import RecursiveContextManager
 
 
 def load_codebase(path: str) -> list[str]:

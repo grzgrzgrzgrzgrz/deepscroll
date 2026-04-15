@@ -1,6 +1,7 @@
 """Tests for DocumentNavigator."""
 
 import pytest
+
 from deepscroll.navigator import DocumentNavigator, SearchMatch
 
 
