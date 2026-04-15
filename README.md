@@ -305,4 +305,4 @@ Additional techniques and inspiration:
 endorsed by, or sponsored by** the authors of the Recursive Language Models paper, MIT,
 or any of their affiliated institutions. Any errors in this implementation are our own.
 
-Built by [kiba solutions GmbH](https://kiba.berlin)
+Built by **Grzegorz Olszówka** — [grzgrzgrz.com](https://grzgrzgrz.com) · [kiba.berlin](https://kiba.berlin)

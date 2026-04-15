@@ -10,7 +10,7 @@ readme = "README.md"
 license = "MIT"
 requires-python = ">=3.9"
 authors = [
-    { name = "kiba solutions GmbH", email = "dev@kiba.berlin" }
+    { name = "Grzegorz Olszówka", email = "grzegorzolszowka@gmail.com" }
 ]
 keywords = [
     "llm",
