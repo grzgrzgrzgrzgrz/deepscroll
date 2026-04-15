@@ -1,53 +1,53 @@
-# Python
+# Python bytecode / native extensions
 __pycache__/
 *.py[cod]
-*$py.class
 *.so
-.Python
 
-# Distribution / packaging
+# Build / packaging
 build/
 dist/
-*.egg-info/
 *.egg
+*.egg-info/
 .eggs/
-wheels/
 pip-wheel-metadata/
 
-# Virtual envs
+# Virtual environments
 .venv/
 venv/
 env/
 ENV/
+.python-version
 
-# Testing / coverage
+# Test, coverage, and tool caches
 .pytest_cache/
 .coverage
 .coverage.*
+coverage.xml
 htmlcov/
 .tox/
 .nox/
-coverage.xml
-*.cover
-
-# Type checkers / linters
+.hypothesis/
 .mypy_cache/
 .ruff_cache/
 .pyre/
 .pytype/
+.hatch/
 
-# IDE / editor
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+!.env*.example
+
+# Local development
+*.log
+
+# Editors / OS
 .idea/
 .vscode/
 *.swp
 *.swo
 .DS_Store
-
-# Env / secrets
-.env
-.env.*
-!.env.example
-
-# Local dev
-*.log
-.ipynb_checkpoints/
