@@ -4,8 +4,23 @@
 [![Status: Alpha](https://img.shields.io/badge/status-alpha-orange.svg)](#status)
 [![Python: 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
 
-**Recursive Language Models for Infinite Context Analysis — as a Claude Code
-(MCP) tool and a small Python library.**
+**An independent open-source implementation of Recursive Language Models
+(Zhang, Kraska, Khattab 2026, [arXiv:2512.24601](https://arxiv.org/abs/2512.24601)) —
+packaged as a Claude Code (MCP) tool and a small Python library.**
+
+> ## 📄 Research foundation — please cite this, not me
+>
+> `deepscroll` is a third-party implementation of the technique introduced in:
+>
+> **Zhang, A. L., Kraska, T., & Khattab, O. (2026).** *Recursive Language Models.*
+> arXiv preprint [arXiv:2512.24601](https://arxiv.org/abs/2512.24601).
+> DOI: [10.48550/arXiv.2512.24601](https://doi.org/10.48550/arXiv.2512.24601)
+>
+> The method, the idea, and the credit are theirs. This repository just
+> wires their approach into Python, Claude Code, and the MCP ecosystem.
+> Not affiliated with or endorsed by the paper's authors or MIT.
+> If you use `deepscroll` in research or a publication, please cite the
+> **paper** — see the [Citation](#citation) section for BibTeX.
 
 Analyze documents of any size (10M+ tokens) using LLM-guided recursive
 navigation. Primary integration target is Claude Code via MCP; a Python
@@ -22,18 +37,6 @@ library and CLI are also available.
 > (see [`SECURITY.md`](./SECURITY.md)). Do not point `deepscroll` at documents
 > or prompts you do not trust. If you need to analyze untrusted content, run
 > the whole process in an isolated VM or container. No warranty.
-
-> ## 📄 Research Foundation
->
-> This project is an **independent open-source implementation** of the technique introduced in:
->
-> **Zhang, A. L., Kraska, T., & Khattab, O. (2026).** *Recursive Language Models.*
-> arXiv preprint [arXiv:2512.24601](https://arxiv.org/abs/2512.24601).
-> DOI: [10.48550/arXiv.2512.24601](https://doi.org/10.48550/arXiv.2512.24601)
->
-> All credit for the underlying method belongs to the original authors at MIT.
-> `deepscroll` is not affiliated with or endorsed by the paper's authors or MIT.
-> See the [Citation](#citation) section below for BibTeX.
 
 ## Installation
 
