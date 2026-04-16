@@ -1,0 +1,86 @@
+name: Bug report
+description: Something in deepscroll is broken or behaves unexpectedly.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the fields
+        below so the issue can be reproduced quickly.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear, concise description of the bug.
+      placeholder: "When I run `deepscroll analyze ...`, the process crashes with ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Minimal, self-contained steps. Include commands, inputs, and relevant
+        code snippets. Do NOT paste API keys or private data.
+      placeholder: |
+        1. `pip install -e .`
+        2. `deepscroll analyze ./sample --query "..."`
+        3. Observe error: ...
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: deepscroll version / commit
+      placeholder: "0.1.0 or commit SHA"
+    validations:
+      required: true
+
+  - type: input
+    id: python
+    attributes:
+      label: Python version
+      placeholder: "3.11.7"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: provider
+    attributes:
+      label: LLM provider
+      options:
+        - OpenAI
+        - Anthropic (Claude)
+        - Both / either
+        - Not applicable
+    validations:
+      required: true
+
+  - type: input
+    id: model
+    attributes:
+      label: Model
+      placeholder: "gpt-4o-mini, claude-sonnet-4-..., etc."
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / traceback
+      description: Redact any secrets or private content before pasting.
+      render: shell
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else?

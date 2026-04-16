@@ -1,8 +1,15 @@
 # deepscroll
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Status: Alpha](https://img.shields.io/badge/status-alpha-orange.svg)](#status)
+[![Python: 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
+
 **Recursive Language Models for Infinite Context Analysis**
 
 Analyze documents of any size (10M+ tokens) using LLM-guided recursive navigation.
+
+> ⚠️ **Status: Alpha / Experimental.** APIs may change, edge cases are still being
+> discovered, and prompts are being tuned. Feedback and PRs are very welcome.
 
 > ## 📄 Research Foundation
 >
@@ -82,7 +89,7 @@ Add an MCP server entry to your Claude Code MCP configuration:
       "env": {
         "OPENAI_API_KEY": "${OPENAI_API_KEY}",
         "RLM_LLM_PROVIDER": "openai",
-        "RLM_LLM_MODEL": "gpt-5.4-mini",
+        "RLM_LLM_MODEL": "gpt-4o-mini",
         "RLM_MAX_TOKENS": "4096",
         "RLM_TEMPERATURE": "0.2"
       }
@@ -206,7 +213,7 @@ export ANTHROPIC_API_KEY=sk-ant-...
 
 # Optional MCP / runtime overrides
 export RLM_LLM_PROVIDER=openai
-export RLM_LLM_MODEL=gpt-5.4-mini
+export RLM_LLM_MODEL=gpt-4o-mini   # any chat-completions model; see llm.py PROVIDER_MAP
 export RLM_MAX_TOKENS=4096
 export RLM_TEMPERATURE=0.2
 ```

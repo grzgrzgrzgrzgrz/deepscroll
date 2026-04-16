@@ -139,7 +139,7 @@ class ClaudeProvider(BaseLLMProvider):
 class OpenAIProvider(BaseLLMProvider):
     """OpenAI provider."""
 
-    DEFAULT_MODEL = "gpt-4o-mini"
+    DEFAULT_MODEL = "gpt-4o-mini"  # widely available baseline; override via RLM_LLM_MODEL or model=
 
     # Models that use max_completion_tokens instead of max_tokens
     # and don't support temperature parameter

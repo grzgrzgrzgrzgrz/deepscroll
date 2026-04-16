@@ -447,7 +447,11 @@ Now write Python code to answer the query. Output ONLY code, no explanations:"""
                     break
 
         if not all_findings and not files_with_content:
-            return f"Keine relevanten Informationen für '{query}' gefunden. Die Codebase enthält {index.file_count} Dateien. Versuche eine spezifischere Suche mit konkreten Dateinamen oder Funktionsnamen."
+            return (
+                f"No relevant information found for '{query}'. "
+                f"The codebase contains {index.file_count} files. "
+                "Try a more specific query with concrete file names, symbols, or keywords."
+            )
 
         # Format findings
         findings_parts = []

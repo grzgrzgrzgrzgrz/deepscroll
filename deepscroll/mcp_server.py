@@ -7,7 +7,7 @@ Uses OpenAI by default to avoid recursive API calls when running inside
 Claude Code. Configure via environment variables:
   - OPENAI_API_KEY: Required for OpenAI models (default)
   - RLM_LLM_PROVIDER: "openai" (default) or "claude"
-  - RLM_LLM_MODEL: Override model (default: gpt-5.4-mini)
+  - RLM_LLM_MODEL: Override model (default: gpt-4o-mini)
   - RLM_MAX_TOKENS: Max output tokens per LLM call (default: 4096)
   - RLM_TEMPERATURE: Sampling temperature (default: 0.2)
 
@@ -20,7 +20,7 @@ Setup:
           "args": ["-m", "deepscroll.mcp_server"],
           "env": {
             "OPENAI_API_KEY": "${OPENAI_API_KEY}",
-            "RLM_LLM_MODEL": "gpt-5.4-mini",
+            "RLM_LLM_MODEL": "gpt-4o-mini",
             "RLM_MAX_TOKENS": "4096",
             "RLM_TEMPERATURE": "0.2"
           }
@@ -41,9 +41,9 @@ from typing import Any
 from .core import RecursiveContextManager
 
 # LLM Configuration for RLM analysis
-# Default to OpenAI GPT-5.4-mini to avoid recursive Claude API calls
+# Default to OpenAI gpt-4o-mini to avoid recursive Claude API calls
 RLM_LLM_PROVIDER = os.environ.get("RLM_LLM_PROVIDER", "openai")
-RLM_LLM_MODEL = os.environ.get("RLM_LLM_MODEL", "gpt-5.4-mini")
+RLM_LLM_MODEL = os.environ.get("RLM_LLM_MODEL", "gpt-4o-mini")
 
 # MCP imports - these will fail gracefully if not installed
 try:

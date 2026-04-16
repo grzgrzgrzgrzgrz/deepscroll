@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/grzgrzgrzgrzgrz/deepscroll/security/advisories/new
+    about: Please report security issues privately via GitHub Security Advisories (see SECURITY.md).
+  - name: Question / discussion
+    url: https://github.com/grzgrzgrzgrzgrz/deepscroll/discussions
+    about: Use Discussions for usage questions, ideas, and broader conversation.

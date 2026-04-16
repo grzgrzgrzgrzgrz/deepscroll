@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest an idea, improvement, or new capability.
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What are you trying to accomplish? What is currently painful or missing?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: How would you like `deepscroll` to behave? API sketches and examples are welcome.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds or other approaches you have tried or ruled out.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
