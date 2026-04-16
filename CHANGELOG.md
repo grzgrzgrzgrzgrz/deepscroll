@@ -7,7 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Security (documentation-only)
+- **Reclassified the RestrictedPython layer from "sandbox" to
+  "best-effort damage reduction".** A third-party audit confirmed a known
+  escape via Python internals (e.g.
+  `getattr(re.compile, "__globals__")["__builtins__"]["__import__"]`)
+  that reaches full CPython built-ins from within allowed helper modules
+  like `re`. Behavior is unchanged; the code always worked this way.
+  What changed is that the README and `SECURITY.md` now say so clearly.
+- `SECURITY.md` now documents the known escape, the resulting threat
+  model, and the recommendation to run untrusted inputs inside a
+  container/VM.
+- README splash now leads with MCP / Claude Code integration and a
+  prominent "not a security sandbox" callout.
+- `SecurePythonREPL` docstrings spell out the limitation.
+
 ### Changed
+- README restructured: Claude Code (MCP) is now the primary integration
+  example; Python library and CLI moved to a short secondary block.
 - Unified default OpenAI model across library, MCP server, and examples to
   `gpt-4o-mini` (widely available baseline; override via `RLM_LLM_MODEL`).
 - Fallback error message in `core.py` is now English (was German).

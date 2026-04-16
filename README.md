@@ -4,12 +4,24 @@
 [![Status: Alpha](https://img.shields.io/badge/status-alpha-orange.svg)](#status)
 [![Python: 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
 
-**Recursive Language Models for Infinite Context Analysis**
+**Recursive Language Models for Infinite Context Analysis — as a Claude Code
+(MCP) tool and a small Python library.**
 
-Analyze documents of any size (10M+ tokens) using LLM-guided recursive navigation.
+Analyze documents of any size (10M+ tokens) using LLM-guided recursive
+navigation. Primary integration target is Claude Code via MCP; a Python
+library and CLI are also available.
 
 > ⚠️ **Status: Alpha / Experimental.** APIs may change, edge cases are still being
 > discovered, and prompts are being tuned. Feedback and PRs are very welcome.
+
+> ## ⚠️ Not a security sandbox
+>
+> `deepscroll` runs **LLM-generated Python code inside your own process**. The
+> RestrictedPython layer reduces accidental damage from model output, but it
+> is **not** a security boundary — known escapes exist via Python internals
+> (see [`SECURITY.md`](./SECURITY.md)). Do not point `deepscroll` at documents
+> or prompts you do not trust. If you need to analyze untrusted content, run
+> the whole process in an isolated VM or container. No warranty.
 
 > ## 📄 Research Foundation
 >
@@ -47,36 +59,7 @@ pip install -e '.[dev,mcp]'
 
 ## Quick Start
 
-### Python API
-
-```python
-from deepscroll import analyze_large_context
-
-# Analyze any number of documents
-result = analyze_large_context(
-    documents=["doc1.txt", "doc2.txt", "./my-codebase/"],
-    query="What are the main architectural patterns used?"
-)
-print(result)
-```
-
-### CLI
-
-```bash
-# Analyze a codebase
-deepscroll analyze ./src --query "How does authentication work?"
-
-# Analyze documents
-deepscroll analyze ./docs --query "Summarize the key findings"
-
-# Search with context
-deepscroll search ./src --pattern "TODO|FIXME"
-
-# Get statistics
-deepscroll stats ./my-project
-```
-
-### Claude Code MCP Integration
+### Claude Code (MCP) — primary integration
 
 Add an MCP server entry to your Claude Code MCP configuration:
 
@@ -104,13 +87,35 @@ Then in Claude Code, you can use:
 Use the analyze_codebase tool to understand how the auth system works in ./src
 ```
 
+### Python library
+
+Also available as a regular Python library and CLI — same functionality, same
+caveats. See the [Python API](#api-reference) and CLI sections below for details.
+
+```python
+from deepscroll import analyze_large_context
+
+result = analyze_large_context(
+    documents=["doc1.txt", "doc2.txt", "./my-codebase/"],
+    query="What are the main architectural patterns used?",
+)
+print(result)
+```
+
+```bash
+# CLI
+deepscroll analyze ./src --query "How does authentication work?"
+deepscroll search ./src --pattern "TODO|FIXME"
+deepscroll stats ./my-project
+```
+
 ## How It Works
 
 Traditional LLMs have context window limits (typically 128K-200K tokens). deepscroll breaks this barrier using the **Recursive Language Model** technique:
 
 1. **Documents as Variables**: Instead of putting all documents in the context, they're stored as external variables
 2. **LLM-Generated Navigation**: The LLM writes Python code to search and navigate through documents
-3. **Secure Execution**: Code runs in a RestrictedPython sandbox for safety
+3. **Restricted Execution**: Code runs through RestrictedPython to reduce accidental damage (not a hard security boundary — see [SECURITY.md](./SECURITY.md))
 4. **Recursive Drilling**: For complex queries, the system recursively analyzes subsets
 
 ```
@@ -124,7 +129,7 @@ Traditional LLMs have context window limits (typically 128K-200K tokens). deepsc
 │  ┌───────────────────────────────────────────┐  │
 │  │ 1. Load documents as external variables    │  │
 │  │ 2. LLM generates navigation code          │  │
-│  │ 3. Execute in secure sandbox              │  │
+│  │ 3. Run via RestrictedPython (best effort) │  │
 │  │ 4. If needed, recurse on subset           │  │
 │  │ 5. Synthesize final answer                │  │
 │  └───────────────────────────────────────────┘  │
@@ -232,16 +237,30 @@ The CLI and MCP server automatically process text-based files such as:
 Binary formats such as PDFs are not parsed directly. Convert them to text or
 Markdown first if you want reliable analysis.
 
-## Security
+## Threat model & caveats
 
-LLM-generated code runs in a **RestrictedPython-based, best-effort sandbox** that:
-- blocks direct access to dangerous built-ins such as `open`, `eval`, `exec`, and `__import__`
-- exposes only a narrow set of safe helpers for navigation and analysis
-- provides Python-level restrictions, not full OS- or container-level isolation
+`deepscroll` is **not** a security product. It runs LLM-generated Python code
+inside the same process that imports the library or starts the MCP server.
 
-If you analyze untrusted content, run `deepscroll` inside an isolated environment
-such as a dedicated virtual machine or container. See [`SECURITY.md`](./SECURITY.md)
-for reporting guidance and threat-model notes.
+- RestrictedPython removes dangerous built-ins (`open`, `eval`, `exec`,
+  `__import__`, …) from the default globals. It reduces accidental damage
+  from model output, such as an LLM writing `open("/etc/passwd")` because
+  it hallucinated an API.
+- It is **not** an isolation boundary. Known escapes reach full
+  `__builtins__` via Python internals (e.g.
+  `getattr(re.compile, "__globals__")["__builtins__"]["__import__"]`).
+  A sufficiently motivated attacker — including a prompt-injected LLM —
+  can import arbitrary modules (`os`, `socket`, `subprocess`, …), read
+  or write files, and make network calls.
+- Do **not** run `deepscroll` against documents or prompts you do not
+  trust. Treat everything the model produces as code that will execute
+  with the privileges of your process.
+- For untrusted corpora, run the whole process inside a dedicated
+  container or VM, with no access to secrets, credentials, or sensitive
+  filesystem paths.
+
+See [`SECURITY.md`](./SECURITY.md) for the full threat-model notes and
+private vulnerability-reporting contact.
 
 ## Examples
 
